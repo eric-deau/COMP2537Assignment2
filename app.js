@@ -399,7 +399,6 @@ app.get('/members', (req, res) => {
         const randomImage = Math.floor(Math.random() * 10) + 1;
         const imageName = `cat${randomImage}.jpg`;
         res.render('members.ejs', {
-            isMember: req.session.loggedType === 'non-administrator',
             username: req.session.loggedUsername,
             imageName: imageName
         });
