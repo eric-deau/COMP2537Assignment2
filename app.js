@@ -337,7 +337,7 @@ app.post('/signup', async (req, res, next) => {
 // /login is endpoint method='post' is the http method
 app.get('/login', (req, res) => {
     // res.send(cssFormInjection + loginForm);
-    res.render("login", { title: "Login" })
+    res.render("login", { error: null })
 });
 
 app.use(express.urlencoded({ extended: false })) // built-in express middleware
@@ -347,7 +347,8 @@ app.post('/login', async (req, res, next) => {
         const value = await loginValidationSchema.validateAsync(req.body);
     } catch (err) {
         // return res.send(`<h1>${err.details[0].message}</h1>` + cssFormInjection + loginForm);
-        res.send("hello")
+        res.render('login', { error: err.details[0].message })
+
     }
     try {
         const result = await usersModel.findOne({
@@ -355,15 +356,17 @@ app.post('/login', async (req, res, next) => {
         });
         if (!req.body.email && !req.body.password) {
             // return res.send(`<h1>Please input an email and password.</h1>` + cssFormInjection + loginForm);
-            res.send("hello")
+            res.render('login', { error: "Please input an email and password." })
+
         }
         if (!req.body.password) {
             // return res.send(`<h1>Please input a password.</h1>` + cssFormInjection + loginForm);
-            res.send("hello")
+            res.render('login', { error: "Please input a password." })
+
         }
         if (!req.body.email) {
             // return res.send(`<h1>Please input an email.</h1>` + cssFormInjection + loginForm);
-            res.send("hello")
+            res.render('login', { error: "Please input an email." })
         }
         if (result) {
             if (bcrypt.compareSync(req.body.password, result?.password)) {
@@ -371,11 +374,13 @@ app.post('/login', async (req, res, next) => {
                 next();
             } else {
                 // return res.send(`<h1>Invalid email/password combination.</h1>` + cssFormInjection + loginForm);
-                res.send("hello")
+                res.render('login', { error: "Invalid email/password combination." })
+
             }
         } else {
             // return res.send(`<h1>Invalid email/password combination.</h1>` + cssFormInjection + loginForm);
-            res.send("hello")
+            res.render('login', { error: "Invalid email/password combination/" })
+
         }
     } catch (error) {
         console.log(error)

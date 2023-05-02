@@ -17,14 +17,19 @@
         <div class="shape"></div>
         <div class="shape"></div>
     </div>
-    <form action="/login" method="post">
-        <input type="text" name="email" placeholder="email" />
-        <br>
-        <input type="password" name="password" placeholder="password" />
-        <br>
-        <button type="submit">Login</button>
-    </form>
-    <br>
+    <% if (error) { %>
+        <h1>
+            <%= error %>
+        </h1>
+        <% } %>
+            <form action="/login" method="post">
+                <input type="text" name="email" placeholder="email" />
+                <br>
+                <input type="password" name="password" placeholder="password" />
+                <br>
+                <button type="submit">Login</button>
+            </form>
+            <br>
 
 </body>
 
