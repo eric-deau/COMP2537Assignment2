@@ -264,7 +264,9 @@ app.get('/', async (req, res) => {
         email: req.session.loggedEmail,
     });
     if (result) {
-        res.send("hello")
+        res.render('home', {
+            isResult: true,
+        })
         // res.send(cssFormInjection + `
         // <div class="container">
         //     <h1> Home Page </h1>
@@ -275,7 +277,9 @@ app.get('/', async (req, res) => {
         // </div>
         // `);
     } else {
-        res.send("hello")
+        res.render('home', {
+            isResult: false,
+        })
         // res.send(cssFormInjection + `
         //     <div class="container">
         //         <h1> Login Page </h1>
