@@ -9,7 +9,7 @@
     <!-- link bootstrap-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!--  -->
-    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="/styles/style.css">
 </head>
 
 <body>
@@ -17,19 +17,24 @@
         <div class="shape"></div>
         <div class="shape"></div>
     </div>
-    <% if (error) { %>
-        <h1>
-            <%= error %>
-        </h1>
-        <% } %>
-            <form action="/login" method="post">
-                <input type="text" name="email" placeholder="email" />
+    <%- include('partials/navbar') -%>
+        <% if (error) { %>
+            <h1>
+                <%= error %>
+            </h1>
+            <% } %>
+                <div class="container">
+                    <div action="/login" method="post">
+                        <form>
+                            <input type="text" name="email" placeholder="email" />
+                            <br>
+                            <input type="password" name="password" placeholder="password" />
+                            <br>
+                            <button type="submit">Login</button>
+                        </form>
+                    </div>
+                </div>
                 <br>
-                <input type="password" name="password" placeholder="password" />
-                <br>
-                <button type="submit">Login</button>
-            </form>
-            <br>
 
 </body>
 

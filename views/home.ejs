@@ -13,15 +13,20 @@
 </head>
 
 <body>
-    <% if (isResult) { %>
-        <h1>Home Page</h1>
-        <a href="/members">Go to Members</a>
-        <a href="/logout">Logout</a>
-        <% } else { %>
-            <h1>Home Page</h1>
-            <a href="/login">Go to Login</a>
-            <a href="/register">Go to Register</a>
-            <% } %>
+    <% if (isAdmin) { %>
+        <%- include('partials/adminNavbar') -%>
+            <% } else { %>
+                <%- include('partials/navbar') -%>
+                    <% } %>
+                        <% if (isResult) { %>
+                            <h1>Home Page</h1>
+                            <a href="/members">Go to Members</a>
+                            <a href="/logout">Logout</a>
+                            <% } else { %>
+                                <h1>Home Page</h1>
+                                <a href="/login">Go to Login</a>
+                                <a href="/signup">Go to Register</a>
+                                <% } %>
 
 </body>
 

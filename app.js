@@ -54,13 +54,20 @@ app.get('/', async (req, res) => {
     const result = await usersModel.findOne({
         email: req.session.loggedEmail,
     });
-    if (result) {
+    if (result && result.type === 'administrator') {
         res.render('home', {
             isResult: true,
+            isAdmin: result.type === 'administrator'
+        })
+    } else if (result && result.type === 'non-administrator') {
+        res.render('home', {
+            isResult: true,
+            isAdmin: false
         })
     } else {
         res.render('home', {
             isResult: false,
+            isAdmin: false
         })
     }
 });
@@ -76,7 +83,7 @@ app.post('/signup', async (req, res, next) => {
     try {
         const value = await signUpValidationSchema.validateAsync(req.body);
     } catch (err) {
-        res.render('signup', { error: err.details[0].message })
+        return res.render('signup', { error: err.details[0].message })
     }
     try {
         const result = await usersModel.findOne({
@@ -84,7 +91,7 @@ app.post('/signup', async (req, res, next) => {
         });
         // check if email already exists in db
         if (result?.email) {
-            res.render('signup', { error: "Email already exists" })
+            return res.render('signup', { error: "Email already exists" })
 
         }
     } catch (err) {
@@ -104,7 +111,7 @@ app.post('/signup', async (req, res, next) => {
         setUserSessions(newUser, req.session, req.body);
         next();
     } catch (err) {
-        res.render('signup', { error: err })
+        return res.render('signup', { error: err })
     }
 });
 
