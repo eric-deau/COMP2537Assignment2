@@ -219,37 +219,37 @@ const setUserSessions = (user, sessionReq, bodyReq) => {
 //         `
 
 // const loginForm = `
-                // <div class="background">
-                // <div class="shape"></div>
-                // <div class="shape"></div>
-                // </div>
-                // <form action="/login" method="post">
-                // <input type="text" name="email" placeholder="email" />
-                // <br>
-                // <input type="password" name="password" placeholder="password" />
-                // <br>
-                // <button type="submit">Login</button>
-                // </form>
-                // <br>
+// <div class="background">
+// <div class="shape"></div>
+// <div class="shape"></div>
+// </div>
+// <form action="/login" method="post">
+// <input type="text" name="email" placeholder="email" />
+// <br>
+// <input type="password" name="password" placeholder="password" />
+// <br>
+// <button type="submit">Login</button>
+// </form>
+// <br>
 //                 `
 
 // const signupForm = `
-            // <div class="background">
-            // <div class="shape"></div>
-            // <div class="shape"></div>
-            // </div>
-            // <div class="container">
-            //     <form action="/signup" method="post">
-            //     <input type="text" name="username" placeholder="username" />
-            //     <br>
-            //     <input type="password" name="password" placeholder="password" />
-            //     <br>
-            //     <input type="email" name="email" placeholder="email" />
-            //     <br>
-            //     <button type="submit">Sign Up</button>
-            //     </form>
-            //     <br>                   
-            // </div>
+// <div class="background">
+// <div class="shape"></div>
+// <div class="shape"></div>
+// </div>
+// <div class="container">
+//     <form action="/signup" method="post">
+//     <input type="text" name="username" placeholder="username" />
+//     <br>
+//     <input type="password" name="password" placeholder="password" />
+//     <br>
+//     <input type="email" name="email" placeholder="email" />
+//     <br>
+//     <button type="submit">Sign Up</button>
+//     </form>
+//     <br>                   
+// </div>
 //             `
 
 app.use(session({
@@ -289,7 +289,7 @@ app.get('/', async (req, res) => {
 
 app.get('/signup', (req, res) => {
     // res.send(cssFormInjection + signupForm);
-    res.send("hello")
+    res.render('signup', { error: null })
 });
 
 app.use(express.urlencoded({ extended: false }))
@@ -299,7 +299,7 @@ app.post('/signup', async (req, res, next) => {
         const value = await signUpValidationSchema.validateAsync(req.body);
     } catch (err) {
         // return res.send(`<h1>${err.details[0].message}</h1>` + cssFormInjection + signupForm);
-        res.send("hello")
+        res.render('signup', { error: err.details[0].message })
     }
     try {
         const result = await usersModel.findOne({
@@ -308,11 +308,12 @@ app.post('/signup', async (req, res, next) => {
         // check if email already exists in db
         if (result?.email) {
             // return res.send(`<h1>Email already exists</h1>` + cssFormInjection + signupForm);
-            res.send("hello")
+            res.render('signup', { error: "Email already exists" })
+
         }
     } catch (err) {
         // return res.send(`<h1>${err}</h1>` + cssFormInjection + signupForm);
-        res.send("hello")
+        res.render('signup', { error: err })
     }
     // hash password
     const hashedPassword = bcrypt.hashSync(req.body.password, 10);
@@ -329,7 +330,7 @@ app.post('/signup', async (req, res, next) => {
         next();
     } catch (err) {
         // return res.send(`<h1>${err}</h1>` + cssFormInjection + signupForm);
-        res.send("hello")
+        res.render('signup', { error: err })
     }
 });
 

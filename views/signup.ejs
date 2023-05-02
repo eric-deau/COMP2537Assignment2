@@ -13,8 +13,27 @@
 </head>
 
 <body>
-
-
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <div class="container">
+        <% if (error) { %>
+            <h1>
+                <%= error %>
+            </h1>
+            <% } %>
+                <form action="/signup" method="post">
+                    <input type="text" name="username" placeholder="username" />
+                    <br>
+                    <input type="password" name="password" placeholder="password" />
+                    <br>
+                    <input type="email" name="email" placeholder="email" />
+                    <br>
+                    <button type="submit">Sign Up</button>
+                </form>
+                <br>
+    </div>
 </body>
 
 </html>
