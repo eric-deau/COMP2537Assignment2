@@ -55,17 +55,17 @@ app.get('/', async (req, res) => {
         email: req.session.loggedEmail,
     });
     if (result && result.type === 'administrator') {
-        res.render('home', {
+        return res.render('home', {
             isResult: true,
             isAdmin: result.type === 'administrator'
         })
     } else if (result && result.type === 'non-administrator') {
-        res.render('home', {
+        return res.render('home', {
             isResult: true,
             isAdmin: false
         })
     } else {
-        res.render('home', {
+        return res.render('home', {
             isResult: false,
             isAdmin: false
         })
@@ -117,7 +117,7 @@ app.post('/signup', async (req, res, next) => {
 
 // /login is endpoint method='post' is the http method
 app.get('/login', (req, res) => {
-    res.render("login", { error: null })
+    return res.render("login", { error: null })
 });
 
 app.use(express.urlencoded({ extended: false })) // built-in express middleware
@@ -126,7 +126,7 @@ app.post('/login', async (req, res, next) => {
     try {
         const value = await loginValidationSchema.validateAsync(req.body);
     } catch (err) {
-        res.render('login', { error: err.details[0].message })
+        return res.render('login', { error: err.details[0].message })
 
     }
     try {
@@ -134,26 +134,26 @@ app.post('/login', async (req, res, next) => {
             email: req.body.email,
         });
         if (!req.body.email && !req.body.password) {
-            res.render('login', { error: "Please input an email and password." })
+            return res.render('login', { error: "Please input an email and password." })
 
         }
         if (!req.body.password) {
-            res.render('login', { error: "Please input a password." })
+            return res.render('login', { error: "Please input a password." })
 
         }
         if (!req.body.email) {
-            res.render('login', { error: "Please input an email." })
+            return res.render('login', { error: "Please input an email." })
         }
         if (result) {
             if (bcrypt.compareSync(req.body.password, result?.password)) {
                 setUserSessions(result, req.session, req.body);
                 next();
             } else {
-                res.render('login', { error: "Invalid email/password combination." })
+                return res.render('login', { error: "Invalid email/password combination." })
 
             }
         } else {
-            res.render('login', { error: "Invalid email/password combination/" })
+            return res.render('login', { error: "Invalid email/password combination/" })
 
         }
     } catch (error) {
@@ -172,19 +172,19 @@ app.get('/members', (req, res) => {
     if (req.session.AUTHENTICATED) {
         const randomImage = Math.floor(Math.random() * 10) + 1;
         const imageName = `cat${randomImage}.jpg`;
-        res.render('members.ejs', {
+        return res.render('members.ejs', {
             username: req.session.loggedUsername,
             imageName: imageName
         });
     } else {
-        res.render('notAMember', { error: "You are not a member" })
+        return res.render('notAMember', { error: "You are not a member" })
     }
 });
 
 app.get('/dashboard', (req, res) => {
     try {
         if (req.session.AUTHENTICATED && req.session.loggedType === 'administrator') {
-            res.render('dashboard', { isAdmin: true })
+            return res.render('dashboard', { isAdmin: true })
             // res.send(
             //     cssFormInjection + `
             //     <div class="container">
@@ -194,7 +194,7 @@ app.get('/dashboard', (req, res) => {
             //     </div>
             // `);
         } else {
-            res.render('dashboard', { isAdmin: false })
+            return res.render('dashboard', { isAdmin: false })
             // res.send(cssFormInjection + `
             // <div class="container">
             //     <h1> You are not an administrator </h1>
@@ -209,7 +209,7 @@ app.get('/dashboard', (req, res) => {
 
 app.get('*', (req, res) => {
     res.status(404)
-    res.render('pageNotFound', { error: true })
+    return res.render('pageNotFound', { error: true })
     // res.send(`<h1> 404 Page Not Found </h1>
     // <br>
     // <a href="/"> Go to Home </a>`);
