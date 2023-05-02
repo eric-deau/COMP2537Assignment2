@@ -9,12 +9,17 @@
     <!-- link bootstrap-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- link css -->
-    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="../styles/style.css">
 </head>
 
 <body>
+    <% if (isAdmin) { %>
+        <%- include('partials/adminNavbar') -%>
+            <% } else { %>
+                <%- include('partials/navbar') -%>
+                    <% } %>
 
-
+                        <%- include('partials/footer') -%>
 </body>
 
 </html>
