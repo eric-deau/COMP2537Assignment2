@@ -175,9 +175,9 @@ app.get('/dashboard', async (req, res) => {
     try {
         const result = await usersModel.find({})
         // console.log(result[0])
-        result.forEach((user) => {
-            console.log(user)
-        })
+        // result.forEach((user) => {
+        //     console.log(user)
+        // })
         if (req.session.AUTHENTICATED) {
             return res.render('dashboard', { isAdmin: req.session.loggedType === 'administrator', isUser: true, users: result })
         } else {
@@ -185,6 +185,41 @@ app.get('/dashboard', async (req, res) => {
         }
     } catch (error) {
         console.log('Admin Error');
+    }
+});
+
+app.post('/switchUserPrivilege', async (req, res) => {
+    // 1 - get the selected user from db
+    // 2 - check if user is admin
+    // 3 - if user is admin, change to non-admin
+    // 4 - if user is non-admin, change to admin
+    // 5 - redirect to dashboard
+    console.log("userid", req.body.userId)
+    try {
+        const result = await usersModel.findOne({
+            _id: req.body.userId
+        });
+        console.log(result)
+        // if (result?.type === 'administrator') {
+        //     await usersModel.updateOne({
+        //         email: req.session.loggedEmail
+        //     }, {
+        //         $set: {
+        //             type: 'non-administrator'
+        //         }
+        //     })
+        // } else {
+        //     await usersModel.updateOne({
+        //         email: req.session.loggedEmail
+        //     }, {
+        //         $set: {
+        //             type: 'administrator'
+        //         }
+        //     })
+        // }
+        res.redirect('/dashboard')
+    } catch (error) {
+        console.log('Switch User Privileges Error');
     }
 });
 

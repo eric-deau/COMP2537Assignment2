@@ -36,8 +36,9 @@
                                             <%= user.username %>
                                         </strong> - <%= user.email %>
                                     </p>
-                                    <form action="/admin/users/<%= user._id %>?_method=DELETE" method="POST">
-                                        <button type="submit">Delete</button>
+                                    <form action="/switchUserPrivilege" method="POST">
+                                        <input type="hidden" name="userId" value="<%= user._id %>">
+                                        <button name="promote" type="submit">Promote</button>
                                     </form>
                                 </li>
                                 <% }) %>
