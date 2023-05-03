@@ -74,7 +74,7 @@ app.get('/', async (req, res) => {
 
 app.get('/signup', (req, res) => {
     // res.send(cssFormInjection + signupForm);
-    res.render('signup', { error: null })
+    return res.render('signup', { error: null })
 });
 
 app.use(express.urlencoded({ extended: false }))
@@ -95,7 +95,7 @@ app.post('/signup', async (req, res, next) => {
 
         }
     } catch (err) {
-        res.render('signup', { error: err })
+        return res.render('signup', { error: err })
     }
     // hash password
     const hashedPassword = bcrypt.hashSync(req.body.password, 10);
@@ -125,6 +125,7 @@ app.post('/login', async (req, res, next) => {
     // set global variable to true
     try {
         const value = await loginValidationSchema.validateAsync(req.body);
+        console.log(value)
     } catch (err) {
         return res.render('login', { error: err.details[0].message })
 
@@ -133,6 +134,7 @@ app.post('/login', async (req, res, next) => {
         const result = await usersModel.findOne({
             email: req.body.email,
         });
+        console.log(result)
         if (!req.body.email && !req.body.password) {
             return res.render('login', { error: "Please input an email and password." })
 
