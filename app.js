@@ -54,15 +54,10 @@ app.get('/', async (req, res) => {
     const result = await usersModel.findOne({
         email: req.session.loggedEmail,
     });
-    if (result && result.type === 'administrator') {
+    if (result) {
         return res.render('home', {
             isUser: true,
             isAdmin: result.type === 'administrator'
-        })
-    } else if (result && result.type === 'non-administrator') {
-        return res.render('home', {
-            isUser: true,
-            isAdmin: false
         })
     } else {
         return res.render('home', {
@@ -125,7 +120,6 @@ app.post('/login', async (req, res, next) => {
     // set global variable to true
     try {
         const value = await loginValidationSchema.validateAsync(req.body);
-        console.log(value)
     } catch (err) {
         return res.render('login', { error: err.details[0].message })
 
