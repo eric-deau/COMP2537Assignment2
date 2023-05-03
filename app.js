@@ -87,7 +87,6 @@ app.post('/signup', async (req, res, next) => {
         // check if email already exists in db
         if (result?.email) {
             return res.render('signup', { error: "Email already exists" })
-
         }
     } catch (err) {
         return res.render('signup', { error: err })
@@ -122,20 +121,16 @@ app.post('/login', async (req, res, next) => {
         const value = await loginValidationSchema.validateAsync(req.body);
     } catch (err) {
         return res.render('login', { error: err.details[0].message })
-
     }
     try {
         const result = await usersModel.findOne({
             email: req.body.email,
         });
-        console.log(result)
         if (!req.body.email && !req.body.password) {
             return res.render('login', { error: "Please input an email and password." })
-
         }
         if (!req.body.password) {
             return res.render('login', { error: "Please input a password." })
-
         }
         if (!req.body.email) {
             return res.render('login', { error: "Please input an email." })
@@ -146,16 +141,13 @@ app.post('/login', async (req, res, next) => {
                 next();
             } else {
                 return res.render('login', { error: "Invalid email/password combination." })
-
             }
         } else {
             return res.render('login', { error: "Invalid email/password combination/" })
-
         }
     } catch (error) {
         console.log(error)
     }
-
 });
 
 app.get('/logout', (req, res) => {
@@ -167,7 +159,7 @@ app.use(express.static(__dirname + "/public"));
 app.get('/members', (req, res) => {
     if (req.session.AUTHENTICATED) {
         const randomImage = Math.floor(Math.random() * 10) + 1;
-        const imageName = `cat${randomImage}.jpg`;
+        const imageName = `images/cat${randomImage}.jpg`;
         return res.render('members.ejs', {
             username: req.session.loggedUsername,
             imageName: imageName,
@@ -216,6 +208,7 @@ const authenticatedOnly = async (req, res, next) => {
     }
     next(); // allow next route to run
 }
+
 app.use(authenticatedOnly);
 
 module.exports = app;
