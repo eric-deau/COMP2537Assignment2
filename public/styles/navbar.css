@@ -1,0 +1,20 @@
+.navbar {
+    background-color: #0F1520 !important;
+    color: #ffffff;
+    border: 1px solid black;
+}
+
+.navbar-brand {
+    color: #ffffff !important;
+}
+
+.offcanvas-header {
+    background-color: #0F1520 !important;
+    color: #ffffff;
+}
+
+.offcanvas-body {
+    background-color: #0C0710 !important;
+    color: #ffffff;
+    border: 1px solid black;
+}

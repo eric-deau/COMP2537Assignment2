@@ -171,10 +171,15 @@ app.get('/members', (req, res) => {
     }
 });
 
-app.get('/dashboard', (req, res) => {
+app.get('/dashboard', async (req, res) => {
     try {
+        const result = await usersModel.find({})
+        // console.log(result[0])
+        result.forEach((user) => {
+            console.log(user)
+        })
         if (req.session.AUTHENTICATED) {
-            return res.render('dashboard', { isAdmin: req.session.loggedType === 'administrator', isUser: true })
+            return res.render('dashboard', { isAdmin: req.session.loggedType === 'administrator', isUser: true, users: result })
         } else {
             return res.render('notAnAdmin', { error: "This is a secret." })
         }

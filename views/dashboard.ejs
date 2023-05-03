@@ -28,6 +28,20 @@
                 </div>
                 <div class="row">
                     <div class="col-12">
+                        <h2>Users</h2>
+                        <ul>
+                            <% users.forEach(function(user) { %>
+                                <li>
+                                    <p><strong>
+                                            <%= user.username %>
+                                        </strong> - <%= user.email %>
+                                    </p>
+                                    <form action="/admin/users/<%= user._id %>?_method=DELETE" method="POST">
+                                        <button type="submit">Delete</button>
+                                    </form>
+                                </li>
+                                <% }) %>
+                        </ul>
                     </div>
                 </div>
                 <% } %>

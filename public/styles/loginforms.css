@@ -1,0 +1,87 @@
+form {
+    height: 520px !important;
+    width: 400px !important;
+    background-color: rgba(255, 255, 255, 0.13) !important;
+    position: absolute !important;
+    transform: translate(-50%, -50%) !important;
+    top: 50% !important;
+    left: 50% !important;
+    border-radius: 10px !important;
+    backdrop-filter: blur(10px) !important;
+    border: 2px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 0 40px rgba(8, 7, 16, 0.6) !important;
+    padding: 50px 35px !important;
+}
+
+form * {
+    font-family: 'Poppins', sans-serif !important;
+    color: #ffffff !important;
+    letter-spacing: 0.5px !important;
+    outline: none !important;
+    border: none !important;
+}
+
+form h3 {
+    font-size: 32px !important;
+    font-weight: 500 !important;
+    line-height: 42px !important;
+    text-align: center !important;
+}
+
+label {
+    display: block !important;
+    margin-top: 30px !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+}
+
+input {
+    display: block !important;
+    height: 50px !important;
+    width: 100% !important;
+    background-color: rgba(255, 255, 255, 0.07) !important;
+    border-radius: 3px !important;
+    padding: 0 10px !important;
+    margin-top: 8px !important;
+    font-size: 14px !important;
+    font-weight: 300 !important;
+}
+
+input:focus {
+    background-color: rgba(255, 255, 255, 0.13) !important;
+}
+
+::placeholder {
+    color: #e5e5e5 !important;
+}
+
+.background {
+    width: 430px !important;
+    height: 520px !important;
+    position: absolute !important;
+    transform: translate(-50%, -50%) !important;
+    left: 50% !important;
+    top: 50% !important;
+}
+
+.background .shape {
+    height: 200px !important;
+    width: 200px !important;
+    position: absolute !important;
+    border-radius: 50% !important;
+}
+
+.shape:first-child {
+    background: linear-gradient(#1845ad,
+            #23a2f6) !important;
+    left: -80px !important;
+    top: -80px !important;
+}
+
+.shape:last-child {
+    background: linear-gradient(to right,
+            #ff512f,
+            #f09819) !important;
+    right: -30px !important;
+    bottom: -80px !important;
+}
