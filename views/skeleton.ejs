@@ -17,13 +17,10 @@
 </head>
 
 <body>
-    <% if (isAdmin) { %>
-        <%- include('partials/adminNavbar') -%>
-            <% } else { %>
-                <%- include('partials/navbar') -%>
-                    <% } %>
 
-                        <%- include('partials/footer') -%>
+    <%- include('partials/navbar') -%>
+
+        <%- include('partials/footer') -%>
 </body>
 
 </html>

@@ -17,24 +17,16 @@
 </head>
 
 <body>
-    <% if (isAdmin) { %>
-        <%- include('partials/adminNavbar') -%>
-            <% } else { %>
-                <%- include('partials/navbar') -%>
-                    <% } %>
-                        <main>
-                            <!-- shapes -->
-                            <div class="background">
-                                <div class="shape"></div>
-                                <div class="shape"></div>
-                            </div>
-                            <form>
-                                <h1>Welcome!</h1>
-                                <div class="d-grid gap-2">
-                                    <a href="/login" class="btn" type="button">Login</a>
-                                    <a href="/signup" class="btn" type="button">Register</a>
-                                </div>
-                                <!-- <div class="container">
+    <%- include('partials/navbar') -%>
+        <main>
+            <!-- shapes -->
+            <form>
+                <h1>Welcome!</h1>
+                <div class="d-grid gap-2">
+                    <a href="/login" class="btn" type="button">Login</a>
+                    <a href="/signup" class="btn" type="button">Register</a>
+                </div>
+                <!-- <div class="container">
                                     <div class="row">
                                         <div class="col-12">
                                             <h1>Home Page</h1>
@@ -43,8 +35,8 @@
                                         </div>
                                     </div>
                                 </div> -->
-                            </form>
-                        </main>
+            </form>
+        </main>
 
 </body>
 

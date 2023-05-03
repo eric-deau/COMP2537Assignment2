@@ -4,18 +4,18 @@ body {
 }
 
 .navbar {
-    background-color: #ffffff !important;
-    color: #a1a6d6;
+    background-color: #0F1520 !important;
+    color: #ffffff;
     border: 1px solid black;
 }
 
 .navbar-brand {
-    color: #080710 !important;
+    color: #ffffff !important;
 }
 
 .btn {
     margin-top: 50px !important;
-    background-color: #210535 !important;
+    background-color: #0C0710 !important;
     cursor: pointer !important;
     padding: 15px 0 !important;
     font-size: 18px !important;
@@ -26,17 +26,16 @@ body {
     background-color: #430d4b !important;
 }
 
-/* .btn {
-    margin-top: 50px !important;
-    width: 100% !important;
-    background-color: #ffffff !important;
-    color: #080710 !important;
-    padding: 15px 0 !important;
-    font-size: 18px !important;
-    font-weight: 600 !important;
-    border-radius: 20px !important;
-    cursor: pointer !important;
-} */
+.offcanvas-header {
+    background-color: #0F1520 !important;
+    color: #ffffff;
+}
+
+.offcanvas-body {
+    background-color: #0F1520 !important;
+    color: #ffffff;
+    border: 1px solid black;
+}
 
 img {
     margin-top: 50px !important;
@@ -93,6 +92,10 @@ input {
 
 input:focus {
     background-color: rgba(255, 255, 255, 0.13) !important;
+}
+
+::placeholder {
+    color: #e5e5e5 !important;
 }
 
 h1 {
