@@ -183,22 +183,8 @@ app.get('/dashboard', (req, res) => {
     try {
         if (req.session.AUTHENTICATED) {
             return res.render('dashboard', { isAdmin: req.session.loggedType === 'administrator', isUser: true })
-            // res.send(
-            //     cssFormInjection + `
-            //     <div class="container">
-            //         <h1> Welcome to the Dashboard ${req.session.loggedUsername} </h1>
-            //         <a class="button" type="button" href="/"> Go to Home </a>
-            //         <a class="button" type="button" href="/logout"> Logout </a>
-            //     </div>
-            // `);
         } else {
             return res.render('notAnAdmin', { error: "This is a secret." })
-            // res.send(cssFormInjection + `
-            // <div class="container">
-            //     <h1> You are not an administrator </h1>
-            //     <a class="button" type="button" href="/"> Go to Home </a>
-            // </div>
-            // `);
         }
     } catch (error) {
         console.log('Admin Error');
@@ -207,10 +193,7 @@ app.get('/dashboard', (req, res) => {
 
 app.get('*', (req, res) => {
     res.status(404)
-    return res.render('pageNotFound', { error: true })
-    // res.send(`<h1> 404 Page Not Found </h1>
-    // <br>
-    // <a href="/"> Go to Home </a>`);
+    return res.render('pageNotFound', { error: "404 Page Not Found." })
 });
 
 // only for authenticated users
