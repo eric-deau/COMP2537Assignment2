@@ -179,7 +179,9 @@ app.get('/members', (req, res) => {
         const imageName = `cat${randomImage}.jpg`;
         return res.render('members.ejs', {
             username: req.session.loggedUsername,
-            imageName: imageName
+            imageName: imageName,
+            isUser: true,
+            isAdmin: req.session.loggedType === 'administrator'
         });
     } else {
         return res.render('notAMember', { error: "You are not a member" })

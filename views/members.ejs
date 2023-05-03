@@ -17,22 +17,35 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <h1>Members</h1>
-                <h1> Welcome back, <%= username %>
-                </h1>
+    <%- include('partials/navbar') -%>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h1>Members</h1>
+                    <h1> Welcome back, <%= username %>
+                    </h1>
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-12">
-                <img src="<%=imageName%>" />
+        <div class="container-fluid">
+            <div class="row">
+                <!-- <div class="col-12">
+                    <img src="<%=imageName%>" />
+                </div> -->
+                <div class="card" style="width: 18rem;">
+                    <!-- <img src="<%imageName%>" class="card-img-top" alt="cat" /> -->
+                    <img src="<%=imageName%>" class="card-img-top" alt="cat" />
+                    <div class="card-body">
+                        <p class="card-text">CHECK OUT MY CATS :)</p>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-12">
-                <a href="/logout">Logout</a>
+        <div class="container">
+            <div class="row">
+                <div class="d-grid gap-2">
+                    <a href="/logout" class="btn">Log out</a>
+                </div>
             </div>
         </div>
 
