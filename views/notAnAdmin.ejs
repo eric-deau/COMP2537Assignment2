@@ -17,20 +17,23 @@
 </head>
 
 <body>
-    <% if(isAdmin) { %>
-        <%- include('partials/navbar') %>
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <h1>Admin Dashboard</h1>
-                        </h1>
-                    </div>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                This is supposed to be a secret page but..
+            </div>
+            <div class="card-body">
+                <h2 class="card-title">
+                    <%= error %>
+                </h2>
+                <p class="card-text">How on earth did you get here?</p>
+                <div class="d-grid gap-2">
+                    <a href="/" class="btn">Go Home</a>
                 </div>
-                <div class="row">
-                    <div class="col-12">
-                    </div>
-                </div>
-                <% } %>
+            </div>
+        </div>
+    </div>
+
 </body>
 
 </html>

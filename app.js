@@ -175,14 +175,14 @@ app.get('/members', (req, res) => {
             isAdmin: req.session.loggedType === 'administrator'
         });
     } else {
-        return res.render('notAMember', { error: "You are not a member" })
+        return res.render('notAMember', { error: "You are not a member." })
     }
 });
 
 app.get('/dashboard', (req, res) => {
     try {
-        if (req.session.AUTHENTICATED && req.session.loggedType === 'administrator') {
-            return res.render('dashboard', { isAdmin: true })
+        if (req.session.AUTHENTICATED) {
+            return res.render('dashboard', { isAdmin: req.session.loggedType === 'administrator', isUser: true })
             // res.send(
             //     cssFormInjection + `
             //     <div class="container">
@@ -192,7 +192,7 @@ app.get('/dashboard', (req, res) => {
             //     </div>
             // `);
         } else {
-            return res.render('dashboard', { isAdmin: false })
+            return res.render('notAnAdmin', { error: "This is a secret." })
             // res.send(cssFormInjection + `
             // <div class="container">
             //     <h1> You are not an administrator </h1>
