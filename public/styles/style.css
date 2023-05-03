@@ -15,7 +15,7 @@ body {
 
 .btn {
     margin-top: 50px !important;
-    background-color: #0C0710 !important;
+    background-color: #430d4b !important;
     cursor: pointer !important;
     padding: 15px 0 !important;
     font-size: 18px !important;
@@ -24,7 +24,7 @@ body {
 }
 
 .btn:hover {
-    background-color: #430d4b !important;
+    background-color: #0C0710 !important;
 }
 
 .offcanvas-header {
@@ -33,7 +33,7 @@ body {
 }
 
 .offcanvas-body {
-    background-color: #0F1520 !important;
+    background-color: #0C0710 !important;
     color: #ffffff;
     border: 1px solid black;
 }
