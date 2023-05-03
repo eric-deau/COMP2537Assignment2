@@ -56,19 +56,16 @@ app.get('/', async (req, res) => {
     });
     if (result && result.type === 'administrator') {
         return res.render('home', {
-            isResult: true,
             isUser: true,
             isAdmin: result.type === 'administrator'
         })
     } else if (result && result.type === 'non-administrator') {
         return res.render('home', {
-            isResult: true,
             isUser: true,
             isAdmin: false
         })
     } else {
         return res.render('home', {
-            isResult: false,
             isUser: false,
             isAdmin: false
         })

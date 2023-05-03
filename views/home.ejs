@@ -19,14 +19,14 @@
 <body>
     <%- include('partials/navbar') -%>
         <main>
-            <!-- shapes -->
-            <form>
-                <h1>Welcome!</h1>
-                <div class="d-grid gap-2">
-                    <a href="/login" class="btn" type="button">Login</a>
-                    <a href="/signup" class="btn" type="button">Register</a>
-                </div>
-                <!-- <div class="container">
+            <% if(!isUser) { %>
+                <form>
+                    <h1>Welcome!</h1>
+                    <div class="d-grid gap-2">
+                        <a href="/login" class="btn" type="button">Login</a>
+                        <a href="/signup" class="btn" type="button">Register</a>
+                    </div>
+                    <!-- <div class="container">
                                     <div class="row">
                                         <div class="col-12">
                                             <h1>Home Page</h1>
@@ -35,7 +35,16 @@
                                         </div>
                                     </div>
                                 </div> -->
-            </form>
+                </form>
+                <% } else { %>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <h1>Home Page</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <% } %>
         </main>
 
 </body>
