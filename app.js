@@ -191,38 +191,39 @@ app.get('/dashboard', async (req, res) => {
     }
 });
 
-app.post('/switchUserPrivilege', async (req, res) => {
-    // 1 - get the selected user from db
-    // 2 - check if user is admin
-    // 3 - if user is admin, change to non-admin
-    // 4 - if user is non-admin, change to admin
-    // 5 - redirect to dashboard
-    console.log("userid", req.body.userId)
+app.post('/promoteAdmin', async (req, res) => {
     try {
         const result = await usersModel.findOne({
             _id: req.body.userId
         });
-        console.log(result)
-        if (result?.type === 'administrator') {
-            await usersModel.updateOne({
-                _id: req.body.userId
-            }, {
-                $set: {
-                    type: 'non-administrator'
-                }
-            })
-        } else {
-            await usersModel.updateOne({
-                _id: req.body.userId
-            }, {
-                $set: {
-                    type: 'administrator'
-                }
-            })
-        }
+        await usersModel.updateOne({
+            _id: req.body.userId
+        }, {
+            $set: {
+                type: 'administrator'
+            }
+        })
         res.redirect('/dashboard')
     } catch (error) {
-        console.log('Switch User Privileges Error');
+        console.log('Add Admin Privileges Error');
+    }
+});
+
+app.post('/demoteAdmin', async (req, res) => {
+    try {
+        const result = await usersModel.findOne({
+            _id: req.body.userId
+        });
+        await usersModel.updateOne({
+            _id: req.body.userId
+        }, {
+            $set: {
+                type: 'non-administrator'
+            }
+        })
+        res.redirect('/dashboard')
+    } catch (error) {
+        console.log('Remove Admin Privileges Error');
     }
 });
 
