@@ -57,12 +57,14 @@ app.get('/', async (req, res) => {
     if (result) {
         return res.render('home', {
             isUser: true,
-            isAdmin: result.type === 'administrator'
+            isAdmin: result.type === 'administrator',
+            isActive: "/"
         })
     } else {
         return res.render('home', {
             isUser: false,
-            isAdmin: false
+            isAdmin: false,
+            isActive: "/"
         })
     }
 });
@@ -164,7 +166,8 @@ app.get('/members', (req, res) => {
             username: req.session.loggedUsername,
             imageName: imageName,
             isUser: true,
-            isAdmin: req.session.loggedType === 'administrator'
+            isAdmin: req.session.loggedType === 'administrator',
+            isActive: "/members"
         });
     } else {
         return res.render('notAMember', { error: "You are not a member." })
@@ -179,7 +182,7 @@ app.get('/dashboard', async (req, res) => {
         //     console.log(user)
         // })
         if (req.session.AUTHENTICATED && req.session.loggedType === 'administrator') {
-            return res.render('dashboard', { isAdmin: req.session.loggedType === 'administrator', isUser: true, users: result })
+            return res.render('dashboard', { isAdmin: req.session.loggedType === 'administrator', isUser: true, users: result, isActive: "/dashboard" })
         } else {
             return res.render('notAnAdmin', { error: "This is a secret." })
         }
