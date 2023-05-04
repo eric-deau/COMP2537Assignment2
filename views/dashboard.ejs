@@ -36,10 +36,23 @@
                                             <%= user.username %>
                                         </strong> - <%= user.email %>
                                     </p>
-                                    <form action="/switchUserPrivilege" method="POST">
+                                    <div class="row">
+                                        <div class="col">
+                                            <form action="/switchUserPrivilege" method="POST">
+                                                <input type="hidden" name="userId" value="<%= user._id %>">
+                                                <% if (user.type==="administrator" ) { %>
+                                                    <button name="demote" type="submit">Demote</button>
+                                                    <% } else { %>
+                                                        <button name="promote" type="submit">Promote</button>
+                                                        <% } %>
+                                                            <!-- <button name="promote" type="submit">Promote</button> -->
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <!-- <form action="/switchUserPrivilege" method="POST">
                                         <input type="hidden" name="userId" value="<%= user._id %>">
                                         <button name="promote" type="submit">Promote</button>
-                                    </form>
+                                    </form> -->
                                 </li>
                                 <% }) %>
                         </ul>

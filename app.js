@@ -178,7 +178,7 @@ app.get('/dashboard', async (req, res) => {
         // result.forEach((user) => {
         //     console.log(user)
         // })
-        if (req.session.AUTHENTICATED) {
+        if (req.session.AUTHENTICATED && req.session.loggedType === 'administrator') {
             return res.render('dashboard', { isAdmin: req.session.loggedType === 'administrator', isUser: true, users: result })
         } else {
             return res.render('notAnAdmin', { error: "This is a secret." })
@@ -200,23 +200,23 @@ app.post('/switchUserPrivilege', async (req, res) => {
             _id: req.body.userId
         });
         console.log(result)
-        // if (result?.type === 'administrator') {
-        //     await usersModel.updateOne({
-        //         email: req.session.loggedEmail
-        //     }, {
-        //         $set: {
-        //             type: 'non-administrator'
-        //         }
-        //     })
-        // } else {
-        //     await usersModel.updateOne({
-        //         email: req.session.loggedEmail
-        //     }, {
-        //         $set: {
-        //             type: 'administrator'
-        //         }
-        //     })
-        // }
+        if (result?.type === 'administrator') {
+            await usersModel.updateOne({
+                _id: req.body.userId
+            }, {
+                $set: {
+                    type: 'non-administrator'
+                }
+            })
+        } else {
+            await usersModel.updateOne({
+                _id: req.body.userId
+            }, {
+                $set: {
+                    type: 'administrator'
+                }
+            })
+        }
         res.redirect('/dashboard')
     } catch (error) {
         console.log('Switch User Privileges Error');
