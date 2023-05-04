@@ -58,19 +58,20 @@ app.get('/', async (req, res) => {
         return res.render('home', {
             isUser: true,
             isAdmin: result.type === 'administrator',
+            username: req.session.loggedUsername,
             isActive: "/"
         })
     } else {
         return res.render('home', {
             isUser: false,
             isAdmin: false,
+            username: null,
             isActive: "/"
         })
     }
 });
 
 app.get('/signup', (req, res) => {
-    // res.send(cssFormInjection + signupForm);
     return res.render('signup', { error: null })
 });
 
