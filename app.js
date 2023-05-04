@@ -183,7 +183,6 @@ app.get('/members', (req, res) => {
 app.get('/dashboard', async (req, res) => {
     try {
         const result = await usersModel.find({})
-        console.log(req.session.email)
         if (req.session.AUTHENTICATED && req.session.loggedType === 'administrator') {
             return res.render('dashboard', {
                 isAdmin: req.session.loggedType === 'administrator',
