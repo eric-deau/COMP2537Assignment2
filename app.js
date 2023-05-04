@@ -160,11 +160,16 @@ app.get('/logout', (req, res) => {
 app.use(express.static(__dirname + "/public"));
 app.get('/members', (req, res) => {
     if (req.session.AUTHENTICATED) {
-        const randomImage = Math.floor(Math.random() * 10) + 1;
-        const imageName = `images/cat${randomImage}.jpg`;
+        // const randomImage = Math.floor(Math.random() * 10) + 1;
+        // const imageName = `images/cat${randomImage}.jpg`;
+        var catPics = new Array();
+        for (var i = 1; i <= 10; i++) {
+            catPics.push(`images/cat${i}.jpg`);
+        }
         return res.render('members.ejs', {
             username: req.session.loggedUsername,
-            imageName: imageName,
+            // imageName: imageName,
+            catPics: catPics,
             isUser: true,
             isAdmin: req.session.loggedType === 'administrator',
             isActive: "/members"
