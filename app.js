@@ -145,7 +145,7 @@ app.post('/login', async (req, res, next) => {
                 return res.render('login', { error: "Invalid email/password combination." })
             }
         } else {
-            return res.render('login', { error: "Invalid email/password combination/" })
+            return res.render('login', { error: "Invalid email/password combination." })
         }
     } catch (error) {
         console.log(error)
@@ -177,12 +177,15 @@ app.get('/members', (req, res) => {
 app.get('/dashboard', async (req, res) => {
     try {
         const result = await usersModel.find({})
-        // console.log(result[0])
-        // result.forEach((user) => {
-        //     console.log(user)
-        // })
+        console.log(req.session.email)
         if (req.session.AUTHENTICATED && req.session.loggedType === 'administrator') {
-            return res.render('dashboard', { isAdmin: req.session.loggedType === 'administrator', isUser: true, users: result, isActive: "/dashboard" })
+            return res.render('dashboard', {
+                isAdmin: req.session.loggedType === 'administrator',
+                isUser: true,
+                users: result,
+                currentUser: req.session.loggedEmail,
+                isActive: "/dashboard"
+            })
         } else {
             return res.render('notAnAdmin', { error: "This is a secret." })
         }
