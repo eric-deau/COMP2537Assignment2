@@ -18,26 +18,27 @@
 </head>
 
 <body>
-    <div class="background">
-        <div class="shape"></div>
-        <div class="shape"></div>
-    </div>
-    <div class="container">
-        <% if (error) { %>
-            <h1>
-                <%= error %>
-            </h1>
-            <% } %>
-                <form action="/signup" method="post">
-                    <input type="text" name="username" placeholder="username" />
-                    <input type="password" name="password" placeholder="password" />
-                    <input type="email" name="email" placeholder="email" />
-                    <div class="d-grid gap-2">
-                        <button class="btn" type="submit">Register</button>
-                    </div>
-                </form>
-                <br>
-    </div>
+    <%- include('partials/navbar') -%>
+        <div class="background">
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+        <div class="container">
+            <% if (error) { %>
+                <h1>
+                    <%= error %>
+                </h1>
+                <% } %>
+                    <form action="/signup" method="post">
+                        <input type="text" name="username" placeholder="username" />
+                        <input type="password" name="password" placeholder="password" />
+                        <input type="email" name="email" placeholder="email" />
+                        <div class="d-grid gap-2">
+                            <button class="btn" type="submit">Register</button>
+                        </div>
+                    </form>
+                    <br>
+        </div>
 </body>
 
 </html>

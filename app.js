@@ -42,6 +42,7 @@ const setUserSessions = (user, sessionReq, bodyReq) => {
     sessionReq.cookie.maxAge = timeExpiration;
     sessionReq.loggedUsername = user.username;
     sessionReq.loggedType = user.type
+    sessionReq.loggedUser = true
 }
 
 const signedInNavLinks = [
@@ -77,23 +78,21 @@ app.get('/', async (req, res) => {
     });
     if (result) {
         return res.render('home', {
-            isUser: true,
+            isUser: req.session.loggedUser,
             isAdmin: result.type === 'administrator',
             username: req.session.loggedUsername,
-            // isActive: "/"
         })
     } else {
         return res.render('home', {
-            isUser: false,
+            isUser: req.session.loggedUser,
             isAdmin: false,
             username: null,
-            // isActive: "/"
         })
     }
 });
 
 app.get('/signup', (req, res) => {
-    return res.render('signup', { error: null })
+    return res.render('signup', { error: null, isUser: req.session.loggedUser })
 });
 
 app.use(express.urlencoded({ extended: false }))
@@ -102,7 +101,7 @@ app.post('/signup', async (req, res, next) => {
     try {
         const value = await signUpValidationSchema.validateAsync(req.body);
     } catch (err) {
-        return res.render('signup', { error: err.details[0].message })
+        return res.render('signup', { error: err.details[0].message, isUser: req.session.loggedUser })
     }
     try {
         const result = await usersModel.findOne({
@@ -110,7 +109,7 @@ app.post('/signup', async (req, res, next) => {
         });
         // check if email already exists in db
         if (result?.email) {
-            return res.render('signup', { error: "Email already exists" })
+            return res.render('signup', { error: "Email already exists", isUser: req.session.loggedUser })
         }
     } catch (err) {
         return res.render('signup', { error: err })
@@ -129,13 +128,13 @@ app.post('/signup', async (req, res, next) => {
         setUserSessions(newUser, req.session, req.body);
         next();
     } catch (err) {
-        return res.render('signup', { error: err })
+        return res.render('signup', { error: err, isUser: req.session.loggedUser })
     }
 });
 
 // /login is endpoint method='post' is the http method
 app.get('/login', (req, res) => {
-    return res.render("login", { error: null })
+    return res.render("login", { error: null, isUser: req.session.loggedUser })
 });
 
 app.use(express.urlencoded({ extended: false })) // built-in express middleware
@@ -144,30 +143,30 @@ app.post('/login', async (req, res, next) => {
     try {
         const value = await loginValidationSchema.validateAsync(req.body);
     } catch (err) {
-        return res.render('login', { error: err.details[0].message })
+        return res.render('login', { error: err.details[0].message, isUser: req.session.loggedUser })
     }
     try {
         const result = await usersModel.findOne({
             email: req.body.email,
         });
         if (!req.body.email && !req.body.password) {
-            return res.render('login', { error: "Please input an email and password." })
+            return res.render('login', { error: "Please input an email and password.", isUser: req.session.loggedUser })
         }
         if (!req.body.password) {
-            return res.render('login', { error: "Please input a password." })
+            return res.render('login', { error: "Please input a password.", isUser: req.session.loggedUser })
         }
         if (!req.body.email) {
-            return res.render('login', { error: "Please input an email." })
+            return res.render('login', { error: "Please input an email.", isUser: req.session.loggedUser })
         }
         if (result) {
             if (bcrypt.compareSync(req.body.password, result?.password)) {
                 setUserSessions(result, req.session, req.body);
                 next();
             } else {
-                return res.render('login', { error: "Invalid email/password combination." })
+                return res.render('login', { error: "Invalid email/password combination.", isUser: req.session.loggedUser })
             }
         } else {
-            return res.render('login', { error: "Invalid email/password combination." })
+            return res.render('login', { error: "Invalid email/password combination.", isUser: req.session.loggedUser })
         }
     } catch (error) {
         console.log(error)
@@ -192,9 +191,8 @@ app.get('/members', (req, res) => {
             username: req.session.loggedUsername,
             // imageName: imageName,
             catPics: catPics,
-            isUser: true,
+            isUser: req.session.loggedUser,
             isAdmin: req.session.loggedType === 'administrator',
-            // isActive: "/members"
         });
     } else {
         return res.render('notAMember', { error: "You are not a member." })
@@ -207,13 +205,12 @@ app.get('/dashboard', async (req, res) => {
         if (req.session.AUTHENTICATED && req.session.loggedType === 'administrator') {
             return res.render('dashboard', {
                 isAdmin: req.session.loggedType === 'administrator',
-                isUser: true,
+                isUser: req.session.loggedUser,
                 users: result,
                 currentUser: req.session.loggedEmail,
-                // isActive: "/dashboard"
             })
         } else {
-            return res.render('notAnAdmin', { error: "This is a secret." })
+            return res.render('notAnAdmin', { error: "This is a secret.", isUser: req.session.loggedUser })
         }
     } catch (error) {
         console.log('Admin Error');
@@ -258,7 +255,7 @@ app.post('/demoteAdmin', async (req, res) => {
 
 app.get('*', (req, res) => {
     res.status(404)
-    return res.render('pageNotFound', { error: "404 Page Not Found." })
+    return res.render('pageNotFound', { error: "404 Page Not Found.", isUser: req.session.loggedUser })
 });
 
 // only for authenticated users

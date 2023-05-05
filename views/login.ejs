@@ -19,31 +19,27 @@
 
 <body>
     <main>
-        <!-- <% if (error) { %>
-        <h1>
-            <%= error %>
-        </h1>
-        <% } %> -->
-        <div class="container">
-            <% if (error) { %>
-                <h1>
-                    <%= error %>
-                </h1>
-                <% } %>
-        </div>
-        <div class="container">
-            <div class="background">
-                <div class="shape"></div>
-                <div class="shape"></div>
+        <%- include('partials/navbar') -%>
+            <div class="container">
+                <% if (error) { %>
+                    <h1>
+                        <%= error %>
+                    </h1>
+                    <% } %>
             </div>
-            <form action="/login" method="post">
-                <input type="text" name="email" placeholder="email" />
-                <input type="password" name="password" placeholder="password" />
-                <div class="d-grid gap-2">
-                    <button class="formBtn" type="submit">Login</button>
+            <div class="container">
+                <div class="background">
+                    <div class="shape"></div>
+                    <div class="shape"></div>
                 </div>
-            </form>
-        </div>
+                <form action="/login" method="post">
+                    <input type="text" name="email" placeholder="email" />
+                    <input type="password" name="password" placeholder="password" />
+                    <div class="d-grid gap-2">
+                        <button class="formBtn" type="submit">Login</button>
+                    </div>
+                </form>
+            </div>
     </main>
 </body>
 

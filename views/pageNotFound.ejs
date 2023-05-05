@@ -17,12 +17,13 @@
 </head>
 
 <body>
-    <h1>
-        <%=error%>
-    </h1>
-    <div class="d-grid gap-2">
-        <a class="btn" href="/">Go to Home</a>
-    </div>
+    <%- include('partials/navbar') -%>
+        <h1>
+            <%=error%>
+        </h1>
+        <div class="d-grid gap-2">
+            <a class="btn" href="/">Go to Home</a>
+        </div>
 </body>
 
 </html>
