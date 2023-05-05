@@ -16,36 +16,47 @@
             </div>
             <div class="offcanvas-body">
                 <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                    <li class="nav-item">
-                        <% if (isActive==="/" ) { %>
-                            <a class="nav-link active" aria-current="page" href="/">Home</a>
-                            <% } else { %>
-                                <a class="nav-link" href="/">Home</a>
-                                <% } %>
-                    </li>
                     <% if (isUser) { %>
-                        <li class="nav-item">
-                            <% if (isActive==="/members" ) { %>
-                                <a class="nav-link active" href="/members">Members</a>
-                                <% } else { %>
-                                    <a class="nav-link" href="/members">Members</a>
-                                    <% } %>
-                        </li>
-                        <% } %>
-                            <% if (isAdmin) { %>
-                                <li class="nav-item">
-                                    <% if (isActive==="/dashboard" ) { %>
-                                        <a class="nav-link active" href="/dashboard">Dashboard</a>
-                                        <% } else { %>
-                                            <a class="nav-link" href="/dashboard">Dashboard</a>
-                                            <% } %>
-                                </li>
-                                <% } %>
-                                    <% if (isUser) { %>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="/logout">Sign Out</a>
-                                        </li>
-                                        <% } %>
+                        <% locals.signedInNavLinks.forEach(function(link) { %>
+                            <li class="nav-item">
+                                <% if (link.url===currentURL) { %>
+                                    <a href="<%= link.url %>" class="nav-link active" aria-current="page">
+                                        <%= link.name %>
+                                    </a>
+                                    <% } else { %>
+                                        <a href="<%= link.url %>" class="nav-link">
+                                            <%= link.name %>
+                                        </a>
+                            </li>
+                            <% } %>
+                                <% }) %>
+                                    <% if (isAdmin) { %>
+                                        <% if (currentURL==="/dashboard" ) { %>
+                                            <a href="/dashboard" class="nav-link active" aria-current="page">
+                                                Dashboard
+                                            </a>
+                                            <% } else { %>
+                                                <a href="/dashboard" class="nav-link">
+                                                    Dashboard
+                                                </a>
+                                                <% } %>
+                                                    <% } %>
+                                                        <% } else { %>
+                                                            <% locals.navlinks.forEach(function(link) { %>
+                                                                <li class="nav-item">
+                                                                    <% if (link.url===currentURL) { %>
+                                                                        <a href="<%= link.url %>"
+                                                                            class="nav-link active" aria-current="page">
+                                                                            <%= link.name %>
+                                                                        </a>
+                                                                        <% } else { %>
+                                                                            <a href="<%= link.url %>" class="nav-link">
+                                                                                <%= link.name %>
+                                                                            </a>
+                                                                </li>
+                                                                <% } %>
+                                                                    <% }) %>
+                                                                        <% } %>
                 </ul>
             </div>
         </div>

@@ -4,6 +4,7 @@ const session = require('express-session');
 const usersModel = require('./models/w1users')
 const bcrypt = require('bcrypt');
 const Joi = require('joi');
+const url = require('url');
 let ejs = require('ejs');
 
 app.set('view engine', 'ejs');
@@ -43,6 +44,18 @@ const setUserSessions = (user, sessionReq, bodyReq) => {
     sessionReq.loggedType = user.type
 }
 
+const signedInNavLinks = [
+    { url: "/", name: "Home" },
+    { url: "/members", name: "Members" },
+    { url: "/logout", name: "Sign Out" },
+];
+
+const navLinks = [
+    { url: "/", name: "Home" },
+    { url: "/login", name: "Login" },
+    { url: "/signup", name: "Sign Up" },
+];
+
 app.use(session({
     secret: process.env.SESSION_SECRET,
     store: dbStore,
@@ -50,7 +63,15 @@ app.use(session({
     saveUninitialized: false,
 }));
 
+app.use("/", (req, res, next) => {
+    app.locals.navlinks = navLinks;
+    app.locals.signedInNavLinks = signedInNavLinks;
+    app.locals.currentURL = url.parse(req.url).pathname;
+    next();
+});
+
 app.get('/', async (req, res) => {
+    console.log(req.url)
     const result = await usersModel.findOne({
         email: req.session.loggedEmail,
     });
@@ -59,14 +80,14 @@ app.get('/', async (req, res) => {
             isUser: true,
             isAdmin: result.type === 'administrator',
             username: req.session.loggedUsername,
-            isActive: "/"
+            // isActive: "/"
         })
     } else {
         return res.render('home', {
             isUser: false,
             isAdmin: false,
             username: null,
-            isActive: "/"
+            // isActive: "/"
         })
     }
 });
@@ -173,7 +194,7 @@ app.get('/members', (req, res) => {
             catPics: catPics,
             isUser: true,
             isAdmin: req.session.loggedType === 'administrator',
-            isActive: "/members"
+            // isActive: "/members"
         });
     } else {
         return res.render('notAMember', { error: "You are not a member." })
@@ -189,7 +210,7 @@ app.get('/dashboard', async (req, res) => {
                 isUser: true,
                 users: result,
                 currentUser: req.session.loggedEmail,
-                isActive: "/dashboard"
+                // isActive: "/dashboard"
             })
         } else {
             return res.render('notAnAdmin', { error: "This is a secret." })
