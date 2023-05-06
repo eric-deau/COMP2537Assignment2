@@ -72,7 +72,6 @@ app.use("/", (req, res, next) => {
 });
 
 app.get('/', async (req, res) => {
-    console.log(req.url)
     const result = await usersModel.findOne({
         email: req.session.loggedEmail,
     });
