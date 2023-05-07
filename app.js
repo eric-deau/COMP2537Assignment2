@@ -207,18 +207,13 @@ app.get('/logout', (req, res) => {
 const authenticatedOnly = async (req, res, next) => {
     if (!req.session.AUTHENTICATED) {
         console.log('Authentication', req.session.AUTHENTICATED)
-        return res.status(401).json({ msg: 'You are not authenticated' });
+        res.status(401)
+        return res.render('notAMember', { error: "You are not a member.", isUser: req.session.loggedUser, isAdmin: req.session.loggedType === 'administrator' })
     }
     try {
         const result = await usersModel.findOne({
             email: req.session.loggedEmail
         })
-        // if (result?.type != 'administrator') {
-        //     res.redirect('/members')
-        // } else {
-        //     // res.redirect('/dashboard')
-        //     next();
-        // }
     } catch (error) {
         console.log('Authentication Error');
     }
@@ -309,8 +304,6 @@ app.post('/demoteAdmin', async (req, res) => {
         console.log('Remove Admin Privileges Error');
     }
 });
-
-// app.use(authenticatedOnly);
 
 app.use(express.static(__dirname + "/public"));
 
