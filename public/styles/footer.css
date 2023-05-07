@@ -1,0 +1,13 @@
+footer {
+    background-color: #0F1520 !important;
+    color: #ffffff;
+    border: 1px solid black;
+}
+
+main {
+    margin-bottom: 0 auto -155px;
+}
+
+.push {
+    height: 100px;
+}

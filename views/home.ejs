@@ -20,26 +20,30 @@
 <body>
     <%- include('partials/navbar') -%>
         <main>
-            <% if(!isUser) { %>
-                <form>
-                    <h1>Welcome!</h1>
-                    <div class="d-grid gap-2">
-                        <a href="/login" class="btn formBtn" type="button">Login</a>
-                        <a href="/signup" class="btn formBtn" type="button">Register</a>
-                    </div>
-                </form>
-                <% } else { %>
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-12">
-                                <h1>Home Page</h1>
-                                <h1>Welcome back, <%=username%>!</h1>
-                            </div>
+            <div class="container">
+                <% if(!isUser) { %>
+                    <form>
+                        <h1>Welcome!</h1>
+                        <div class="d-grid gap-2">
+                            <a href="/login" class="btn formBtn" type="button">Login</a>
+                            <a href="/signup" class="btn formBtn" type="button">Register</a>
+                        </div>
+            </div>
+            </form>
+            <% } else { %>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <h1>Home Page</h1>
+                            <h1>Welcome back, <%=username%>!</h1>
                         </div>
                     </div>
-                    <% } %>
+                </div>
+                <% } %>
         </main>
-
+        <div class="container-fluid fixed-bottom p-0">
+            <%- include('partials/footer') -%>
+        </div>
 </body>
 
 </html>
