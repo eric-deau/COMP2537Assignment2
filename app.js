@@ -125,7 +125,7 @@ app.post('/signup', async (req, res, next) => {
         });
         await newUser.save();
         setUserSessions(newUser, req.session, req.body);
-        next();
+        res.redirect('/members');
     } catch (err) {
         return res.render('signup', { error: err, isUser: req.session.loggedUser })
     }
@@ -206,7 +206,6 @@ app.get('/logout', (req, res) => {
 // only for authenticated users
 const authenticatedOnly = async (req, res, next) => {
     if (!req.session.AUTHENTICATED) {
-        console.log('Authentication', req.session.AUTHENTICATED)
         res.status(401)
         return res.render('notAMember', { error: "You are not a member.", isUser: req.session.loggedUser, isAdmin: req.session.loggedType === 'administrator' })
     }
