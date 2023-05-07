@@ -18,14 +18,17 @@
 
 <body>
     <%- include('partials/navbar') -%>
-        <h1>
-            <%=error%>
-        </h1>
-        <div class="d-grid gap-2">
-            <a class="btn formBtn" href="/">Go to Home</a>
+        <div class="container p-4">
+            <h1>
+                <%=error%>
+            </h1>
+            <div class="d-grid gap-2">
+                <a class="btn formBtn" href="/">Go to Home</a>
+            </div>
         </div>
-        <%- include('partials/footer') -%>
-
+        <div class="container-fluid fixed-bottom p-0">
+            <%- include('partials/footer') -%>
+        </div>
 </body>
 
 </html>
