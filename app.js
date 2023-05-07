@@ -194,7 +194,7 @@ app.get('/members', (req, res) => {
             isAdmin: req.session.loggedType === 'administrator',
         });
     } else {
-        return res.render('notAMember', { error: "You are not a member." })
+        return res.render('notAMember', { error: "You are not a member.", isUser: req.session.loggedUser, isAdmin: req.session.loggedType === 'administrator' })
     }
 });
 
@@ -209,7 +209,8 @@ app.get('/dashboard', async (req, res) => {
                 currentUser: req.session.loggedEmail,
             })
         } else {
-            return res.render('notAnAdmin', { error: "This is a secret.", isUser: req.session.loggedUser })
+            res.status(403)
+            return res.render('notAnAdmin', { error: "You do not have access to this page.", isUser: req.session.loggedUser, isAdmin: req.session.loggedType === 'administrator' })
         }
     } catch (error) {
         console.log('Admin Error');
@@ -254,7 +255,7 @@ app.post('/demoteAdmin', async (req, res) => {
 
 app.get('*', (req, res) => {
     res.status(404)
-    return res.render('pageNotFound', { error: "404 Page Not Found.", isUser: req.session.loggedUser })
+    return res.render('pageNotFound', { error: "404 Page Not Found.", isUser: req.session.loggedUser, isAdmin: req.session.loggedType === 'administrator' })
 });
 
 // only for authenticated users
