@@ -160,7 +160,7 @@ app.post('/login', async (req, res, next) => {
         if (result) {
             if (bcrypt.compareSync(req.body.password, result?.password)) {
                 setUserSessions(result, req.session, req.body);
-                next();
+                res.redirect('/members');
             } else {
                 return res.render('login', { error: "Invalid email/password combination.", isUser: req.session.loggedUser })
             }
@@ -177,8 +177,55 @@ app.get('/logout', (req, res) => {
     res.redirect('/');
 });
 
-app.use(express.static(__dirname + "/public"));
-app.get('/members', (req, res) => {
+// app.use(express.static(__dirname + "/public"));
+// app.get('/members', (req, res) => {
+//     if (req.session.AUTHENTICATED) {
+//         // const randomImage = Math.floor(Math.random() * 10) + 1;
+//         // const imageName = `images/cat${randomImage}.jpg`;
+//         var catPics = new Array();
+//         for (var i = 1; i <= 10; i++) {
+//             catPics.push(`images/cat${i}.jpg`);
+//         }
+//         return res.render('members.ejs', {
+//             username: req.session.loggedUsername,
+//             // imageName: imageName,
+//             catPics: catPics,
+//             isUser: req.session.loggedUser,
+//             isAdmin: req.session.loggedType === 'administrator',
+//         });
+//     } else {
+//         return res.render('notAMember', { error: "You are not a member.", isUser: req.session.loggedUser, isAdmin: req.session.loggedType === 'administrator' })
+//     }
+// });
+
+// app.get('*', (req, res) => {
+//     res.status(404)
+//     return res.render('pageNotFound', { error: "404 Page Not Found.", isUser: req.session.loggedUser, isAdmin: req.session.loggedType === 'administrator' })
+// });
+
+// only for authenticated users
+const authenticatedOnly = async (req, res, next) => {
+    if (!req.session.AUTHENTICATED) {
+        console.log('Authentication', req.session.AUTHENTICATED)
+        return res.status(401).json({ msg: 'You are not authenticated' });
+    }
+    try {
+        const result = await usersModel.findOne({
+            email: req.session.loggedEmail
+        })
+        // if (result?.type != 'administrator') {
+        //     res.redirect('/members')
+        // } else {
+        //     // res.redirect('/dashboard')
+        //     next();
+        // }
+    } catch (error) {
+        console.log('Authentication Error');
+    }
+    next(); // allow next route to run
+}
+
+app.get('/members', authenticatedOnly, (req, res) => {
     if (req.session.AUTHENTICATED) {
         // const randomImage = Math.floor(Math.random() * 10) + 1;
         // const imageName = `images/cat${randomImage}.jpg`;
@@ -198,7 +245,17 @@ app.get('/members', (req, res) => {
     }
 });
 
-app.get('/dashboard', async (req, res) => {
+// only for admin users
+const adminAuthorization = (req, res, next) => {
+    if (req.session.loggedType === 'administrator') {
+        next();
+    } else {
+        res.status(403)
+        return res.render('notAnAdmin', { error: "You do not have access to this page.", isUser: req.session.loggedUser, isAdmin: req.session.loggedType === 'administrator' })
+    }
+}
+
+app.get('/dashboard', authenticatedOnly, adminAuthorization, async (req, res) => {
     try {
         const result = await usersModel.find({})
         if (req.session.AUTHENTICATED && req.session.loggedType === 'administrator') {
@@ -253,32 +310,13 @@ app.post('/demoteAdmin', async (req, res) => {
     }
 });
 
+// app.use(authenticatedOnly);
+
+app.use(express.static(__dirname + "/public"));
+
 app.get('*', (req, res) => {
     res.status(404)
     return res.render('pageNotFound', { error: "404 Page Not Found.", isUser: req.session.loggedUser, isAdmin: req.session.loggedType === 'administrator' })
 });
-
-// only for authenticated users
-const authenticatedOnly = async (req, res, next) => {
-    if (!req.session.AUTHENTICATED) {
-        console.log('Authentication', req.session.AUTHENTICATED)
-        return res.status(401).json({ msg: 'You are not authenticated' });
-    }
-    try {
-        const result = await usersModel.findOne({
-            email: req.session.loggedEmail
-        })
-        if (result?.type != 'administrator') {
-            res.redirect('/members')
-        } else {
-            res.redirect('/dashboard')
-        }
-    } catch (error) {
-        console.log('Authentication Error');
-    }
-    next(); // allow next route to run
-}
-
-app.use(authenticatedOnly);
 
 module.exports = app;
