@@ -177,32 +177,6 @@ app.get('/logout', (req, res) => {
     res.redirect('/');
 });
 
-// app.use(express.static(__dirname + "/public"));
-// app.get('/members', (req, res) => {
-//     if (req.session.AUTHENTICATED) {
-//         // const randomImage = Math.floor(Math.random() * 10) + 1;
-//         // const imageName = `images/cat${randomImage}.jpg`;
-//         var catPics = new Array();
-//         for (var i = 1; i <= 10; i++) {
-//             catPics.push(`images/cat${i}.jpg`);
-//         }
-//         return res.render('members.ejs', {
-//             username: req.session.loggedUsername,
-//             // imageName: imageName,
-//             catPics: catPics,
-//             isUser: req.session.loggedUser,
-//             isAdmin: req.session.loggedType === 'administrator',
-//         });
-//     } else {
-//         return res.render('notAMember', { error: "You are not a member.", isUser: req.session.loggedUser, isAdmin: req.session.loggedType === 'administrator' })
-//     }
-// });
-
-// app.get('*', (req, res) => {
-//     res.status(404)
-//     return res.render('pageNotFound', { error: "404 Page Not Found.", isUser: req.session.loggedUser, isAdmin: req.session.loggedType === 'administrator' })
-// });
-
 // only for authenticated users
 const authenticatedOnly = async (req, res, next) => {
     if (!req.session.AUTHENTICATED) {
@@ -221,15 +195,12 @@ const authenticatedOnly = async (req, res, next) => {
 
 app.get('/members', authenticatedOnly, (req, res) => {
     if (req.session.AUTHENTICATED) {
-        // const randomImage = Math.floor(Math.random() * 10) + 1;
-        // const imageName = `images/cat${randomImage}.jpg`;
         var catPics = new Array();
         for (var i = 1; i <= 10; i++) {
             catPics.push(`images/cat${i}.jpg`);
         }
         return res.render('members.ejs', {
             username: req.session.loggedUsername,
-            // imageName: imageName,
             catPics: catPics,
             isUser: req.session.loggedUser,
             isAdmin: req.session.loggedType === 'administrator',
