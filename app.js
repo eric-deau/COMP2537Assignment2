@@ -74,7 +74,6 @@ app.use("/", (req, res, next) => {
     app.locals.navlinks = navLinks;
     app.locals.signedInNavLinks = signedInNavLinks;
     app.locals.footerLinks = footerLinks;
-    console.log(footerLinks)
     app.locals.currentURL = url.parse(req.url).pathname;
     next();
 });

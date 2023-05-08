@@ -1,0 +1,23 @@
+<li class="list-group-item">
+    <p><strong>
+            <%= user.username %>
+        </strong> - <%= user.email %> - <%= user.type %>
+    </p>
+    <div class="row">
+        <div class="col">
+            <% if (user.email !=currentUser) { %>
+                <% if (user.type==="administrator" ) { %>
+                    <form action="/demoteAdmin" method="POST">
+                        <input type="hidden" name="userId" value="<%= user._id %>">
+                        <button name="demote" type="submit" class="btn btn-danger btn-sm">Demote</button>
+                    </form>
+                    <% } else { %>
+                        <form action="/promoteAdmin" method="POST">
+                            <input type="hidden" name="userId" value="<%= user._id %>">
+                            <button name="promote" type="submit" class="btn btn-success btn-sm">Promote</button>
+                        </form>
+                        <% } %>
+                            <% } %>
+        </div>
+    </div>
+</li>
