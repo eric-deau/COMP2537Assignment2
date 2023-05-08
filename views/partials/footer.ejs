@@ -5,9 +5,14 @@
 <footer class="p-4 text-center">
     <p class="lead text-center">© 2023 All Rights Reserved</p>
     <div class="container">
-        <a href="#"><i class="bi bi-facebook h1 text-light p-2"></i></a>
+        <% locals.footerLinks.forEach((link)=> { %>
+            <a href="<%= link.url %>">
+                <i class="<%=link.icon%>"></i>
+            </a>
+            <% }) %>
+                <!-- <a href="#"><i class="bi bi-facebook h1 text-light p-2"></i></a>
         <a href="#"><i class="bi bi-instagram h1 text-light p-2"></i></a>
         <a href="#"><i class="bi bi-twitter h1 text-light p-2"></i></a>
-        <a href="https://www.twitch.tv/rakshasa_sw"><i class="bi bi-twitch h1 text-light p-2"></i></a>
+        <a href="https://www.twitch.tv/rakshasa_sw"><i class="bi bi-twitch h1 text-light p-2"></i></a> -->
     </div>
 </footer>

@@ -57,6 +57,12 @@ const navLinks = [
     { url: "/signup", name: "Sign Up" },
 ];
 
+const footerLinks = [
+    { url: "#", icon: "bi bi-facebook h1 text-light p-2" },
+    { url: "#", icon: "bi bi-instagram h1 text-light p-2" },
+    { url: "#", icon: "bi bi-twitter h1 text-light p-2" },
+    { url: "https://www.twitch.tv/rakshasa_sw", icon: "bi bi-twitch h1 text-light p-2" },]
+
 app.use(session({
     secret: process.env.SESSION_SECRET,
     store: dbStore,
@@ -67,6 +73,8 @@ app.use(session({
 app.use("/", (req, res, next) => {
     app.locals.navlinks = navLinks;
     app.locals.signedInNavLinks = signedInNavLinks;
+    app.locals.footerLinks = footerLinks;
+    console.log(footerLinks)
     app.locals.currentURL = url.parse(req.url).pathname;
     next();
 });
