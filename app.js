@@ -70,6 +70,7 @@ app.use(session({
     saveUninitialized: false,
 }));
 
+// middleware to set global variables
 app.use("/", (req, res, next) => {
     app.locals.navlinks = navLinks;
     app.locals.signedInNavLinks = signedInNavLinks;
@@ -78,6 +79,7 @@ app.use("/", (req, res, next) => {
     next();
 });
 
+// / is endpoint method='get' is the http method
 app.get('/', async (req, res) => {
     const result = await usersModel.findOne({
         email: req.session.loggedEmail,
@@ -97,10 +99,12 @@ app.get('/', async (req, res) => {
     }
 });
 
+// /signup is endpoint method='get' is the http method
 app.get('/signup', (req, res) => {
     return res.render('signup', { error: null, isUser: req.session.loggedUser })
 });
 
+// parse body of request and check if email and password are valid inputs
 app.use(express.urlencoded({ extended: false }))
 app.post('/signup', async (req, res, next) => {
     // check if email is formatted correctly
@@ -143,6 +147,7 @@ app.get('/login', (req, res) => {
     return res.render("login", { error: null, isUser: req.session.loggedUser })
 });
 
+// parse body of request and check if email and password are valid inputs
 app.use(express.urlencoded({ extended: false })) // built-in express middleware
 app.post('/login', async (req, res, next) => {
     // set global variable to true
@@ -179,6 +184,7 @@ app.post('/login', async (req, res, next) => {
     }
 });
 
+// logout
 app.get('/logout', (req, res) => {
     req.session.destroy();
     res.redirect('/');
@@ -200,6 +206,7 @@ const authenticatedOnly = async (req, res, next) => {
     next(); // allow next route to run
 }
 
+// member route
 app.get('/members', authenticatedOnly, (req, res) => {
     if (req.session.AUTHENTICATED) {
         var catPics = new Array();
@@ -227,6 +234,7 @@ const adminAuthorization = (req, res, next) => {
     }
 }
 
+// admin route
 app.get('/dashboard', authenticatedOnly, adminAuthorization, async (req, res) => {
     try {
         const result = await usersModel.find({})
@@ -246,6 +254,7 @@ app.get('/dashboard', authenticatedOnly, adminAuthorization, async (req, res) =>
     }
 });
 
+// add admin privileges
 app.post('/promoteAdmin', async (req, res) => {
     try {
         const result = await usersModel.findOne({
@@ -264,6 +273,7 @@ app.post('/promoteAdmin', async (req, res) => {
     }
 });
 
+// remove admin privileges
 app.post('/demoteAdmin', async (req, res) => {
     try {
         const result = await usersModel.findOne({
@@ -282,8 +292,10 @@ app.post('/demoteAdmin', async (req, res) => {
     }
 });
 
+// access images
 app.use(express.static(__dirname + "/public"));
 
+// 404 page
 app.get('*', (req, res) => {
     res.status(404)
     return res.render('pageNotFound', { error: "404 Page Not Found.", isUser: req.session.loggedUser, isAdmin: req.session.loggedType === 'administrator' })
